@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IUserPageMeta } from './user.controller';
@@ -6,8 +6,6 @@ import { UsersEntity } from './users.entity';
 
 @Injectable()
 export class UserService {
-  private readonly logger = new Logger(UserService.name);
-
   constructor(
     @InjectRepository(UsersEntity)
     private usersRepo: Repository<UsersEntity>,
@@ -18,7 +16,7 @@ export class UserService {
     data: UsersEntity[];
     meta: IUserPageMeta;
   }> {
-    const limit = 10;
+    const limit = 20;
     const [data, total] = await this.usersRepo.findAndCount({
       skip: page > 0 ? (page - 1) * limit : 0,
       take: limit,
